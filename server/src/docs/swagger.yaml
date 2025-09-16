@@ -1,0 +1,294 @@
+openapi: 3.0.3
+info:
+  title: Lead Management API Specification
+  version: '94'
+  description: API documentation for the Lead Management bounded context.
+servers:
+  - url: /api/v1
+    description: Development Server
+tags:
+  - name: LeadManagement
+    description: Operations related to the LeadManagement bounded context.
+paths:
+  /create-lead:
+    post:
+      summary: Create Lead
+      description: Executes the "Create Lead" command. ...
+      operationId: createLead
+      tags:
+        - LeadManagement
+      responses:
+        '200':
+          description: 'OK: The resource was updated successfully.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Lead'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateLeadRequest'
+  /qualify-lead:
+    post:
+      summary: Qualify Lead
+      description: Executes the "Qualify Lead" command. ...
+      operationId: qualifyLead
+      tags:
+        - LeadManagement
+      responses:
+        '200':
+          description: 'OK: The resource was updated successfully.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Lead'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/QualifyLeadRequest'
+  /convert-lead:
+    post:
+      summary: Convert Lead
+      description: Executes the "Convert Lead" command. ...
+      operationId: convertLead
+      tags:
+        - LeadManagement
+      responses:
+        '200':
+          description: 'OK: The resource was updated successfully.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Lead'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ConvertLeadRequest'
+  /get-all-leads:
+    get:
+      summary: Get All Leads
+      description: Retrieves data based on the "Get All Leads" query. This is a synchronous query operation.
+      operationId: getAllLeads
+      tags:
+        - LeadManagement
+      responses:
+        '200':
+          description: Successful retrieval of data.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Lead'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+components:
+  schemas:
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+          example: An error occurred.
+    Lead:
+      type: object
+      description: Represents a Lead in the system.
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the Lead (primary key).
+          example: L-101
+        firstName:
+          type: string
+          description: The firstName of the Lead.
+          example: John
+        lastName:
+          type: string
+          description: The lastName of the Lead.
+          example: Smith
+        email:
+          type: string
+          description: The email of the Lead.
+          example: john.s@acme.com
+        phone:
+          type: string
+          description: The phone of the Lead.
+          example: 555-1234
+        companyName:
+          type: string
+          description: The companyName of the Lead.
+          example: Acme Corp
+        leadSource:
+          type: string
+          description: The leadSource of the Lead.
+          example: Web
+        notes:
+          type: string
+          description: The notes of the Lead.
+          example: Interested in Q4 services
+        status:
+          type: string
+          description: The status of the Lead.
+          example: Qualified
+        qualificationNotes:
+          type: string
+          description: The qualificationNotes of the Lead.
+          example: Good fit, strong budget
+        budgetEstimate:
+          type: string
+          description: The budgetEstimate of the Lead.
+          example: '50000'
+        nextSteps:
+          type: string
+          description: The nextSteps of the Lead.
+          example: Schedule demo
+        qualificationDate:
+          type: string
+          description: The qualificationDate of the Lead.
+          example: '2023-08-10'
+        accountId:
+          type: string
+          description: The accountId of the Lead.
+          example: ACC-001
+        contactId:
+          type: string
+          description: The contactId of the Lead.
+          example: C-501
+        opportunityName:
+          type: string
+          description: The opportunityName of the Lead.
+          example: Acme Platform Upgrade
+        conversionNotes:
+          type: string
+          description: The conversionNotes of the Lead.
+          example: Converted after successful demo
+        convertedBy:
+          type: string
+          description: The convertedBy of the Lead.
+          example: SalesRep-12
+      required:
+        - id
+        - firstName
+        - lastName
+        - email
+        - companyName
+        - status
+    CreateLeadRequest:
+      type: object
+      properties:
+        id:
+          type: string
+          example: L-101
+        firstName:
+          type: string
+          example: John
+        lastName:
+          type: string
+          example: Smith
+        email:
+          type: string
+          example: john.s@acme.com
+        phone:
+          type: string
+          example: 555-1234
+        companyName:
+          type: string
+          example: Acme Corp
+        leadSource:
+          type: string
+          example: Web
+        notes:
+          type: string
+          example: Interested in Q4 services
+      required:
+        - id
+        - firstName
+        - lastName
+        - email
+        - companyName
+    QualifyLeadRequest:
+      type: object
+      properties:
+        id:
+          type: string
+          example: L-101
+        status:
+          type: string
+          example: Qualified
+        qualificationNotes:
+          type: string
+          example: Good fit, strong budget
+        budgetEstimate:
+          type: string
+          example: '50000'
+        nextSteps:
+          type: string
+          example: Schedule demo
+        qualificationDate:
+          type: string
+          example: '2023-08-10'
+      required:
+        - id
+        - status
+    ConvertLeadRequest:
+      type: object
+      properties:
+        id:
+          type: string
+          example: L-101
+        accountId:
+          type: string
+          example: ACC-001
+        contactId:
+          type: string
+          example: C-501
+        opportunityName:
+          type: string
+          example: Acme Platform Upgrade
+        conversionNotes:
+          type: string
+          example: Converted after successful demo
+        convertedBy:
+          type: string
+          example: SalesRep-12
+      required:
+        - id
+  parameters:
+    LeadId:
+      name: id
+      in: path
+      required: true
+      description: The unique identifier for the Lead.
+      schema:
+        type: string
+  responses:
+    BadRequest:
+      description: 'Bad Request: The server cannot or will not process the request due to something that is perceived to be a client error.'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: 'Not Found: The server can not find the requested resource.'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    InternalServerError:
+      description: 'Internal Server Error: The server has encountered a situation it doesn''t know how to handle.'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
